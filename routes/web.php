@@ -35,7 +35,11 @@ Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 Route::get('users/search', [UserController::class, 'search'])->name('users.search');
 
+Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 Route::resource('product', ProductController::class);
+// Route::resource('profile', ProfileController::class);
 // });
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('about-us');

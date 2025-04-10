@@ -34,11 +34,9 @@ class UserController extends Controller
                     ? '<span class="badge bg-success">Verified</span>'
                     : '<span class="badge bg-warning text-dark">Pending</span>')
                 // Compute the role column:
-                ->addColumn('role', function ($user) {
-                    return $user->roles->count() > 0
-                        ? '<span class="badge bg-primary">' . $user->roles->first()->name . '</span>'
-                        : '<span class="badge bg-secondary">No role</span>';
-                })
+                ->addColumn('role', fn($user) => $user->roles->count() > 0
+                    ? '<span class="badge bg-primary text-capitalize">' . $user->roles->first()->name . '</span>'
+                    : '<span class="badge bg-secondary">No role</span>')
                 // Format the created_at column:
                 ->editColumn('created_at', function ($user) {
                     return $user->created_at->format('M d, Y');
@@ -180,7 +178,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // dd($user);  
+        // dd($user);
         DB::beginTransaction();
 
         try {

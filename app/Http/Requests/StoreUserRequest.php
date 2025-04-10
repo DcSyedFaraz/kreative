@@ -39,7 +39,7 @@ class StoreUserRequest extends FormRequest
                     ->numbers()
                     ->symbols(),
             ],
-            'verify_email' => ['sometimes', 'boolean'],
+            'verify_email' => ['sometimes'],
             'role' => ['required', 'exists:roles,name'], // Add role validation
         ];
     }

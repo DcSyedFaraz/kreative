@@ -9,6 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/frontend/logo.webp') }}">
     <title> @yield('title')</title>
 </head>
 
@@ -195,7 +197,6 @@
 
 
 <script>
-
     $('.main-caro').owlCarousel({
         loop: true,
         navText: ["<i class='fa-solid fa-chevron-left'></i>", "<i class='fa-solid fa-chevron-right'></i>"],

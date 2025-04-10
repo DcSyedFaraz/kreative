@@ -20,6 +20,10 @@ body {
     display: block;
 }
 
+/* .active {
+    color: #fff;
+} */
+
 .nav-ul {
     list-style: none;
     display: flex;

@@ -105,11 +105,11 @@
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <select class="form-select @error('role') is-invalid @enderror" id="role"
+                                        <select class="form-select text-capitalize @error('role') is-invalid @enderror" id="role"
                                             name="role" required>
                                             <option value="" selected disabled>Select a role</option>
                                             @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}"
+                                                <option value="{{ $role->name }}" class="text-capitalize"
                                                     {{ old('role') == $role->name ? 'selected' : '' }}>
                                                     {{ $role->name }}
                                                 </option>

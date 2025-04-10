@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Kreative</title>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/frontend/logo.webp') }}">
 
     <!-- App css -->
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
@@ -46,58 +46,29 @@
                 <div class="logo-box">
                     <a class="logo logo-light" href="/">
                         <span class="logo-sm">
-                            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
+                            <img src="{{ asset('assets/images/frontend/logo.webp') }}" alt="" height="50">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="24">
+                            <img src="{{ asset('assets/images/frontend/logo.webp') }}" alt="" height="50">
                         </span>
                     </a>
                     <a class="logo logo-dark" href="/">
                         <span class="logo-sm">
-                            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
+                            <img src="{{ asset('assets/images/frontend/logo.webp') }}" alt="" height="50">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="24">
+                            <img src="{{ asset('assets/images/frontend/logo.webp') }}" alt="" height="50">
                         </span>
                     </a>
                 </div>
 
-                <ul id="side-menu-baer">
-                    <li class="menu-title">Menu</li>
-                    <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <a href="{{ route('dashboard') }}">
-                            <i data-feather="home"></i>
-                            <span> Dashboard </span>
-                        </a>
-                    </li>
-                    <li class="{{ request()->routeIs('roles.index') ? 'active' : '' }}">
-                        <a href="{{ route('roles.index') }}">
-                            <i data-feather="aperture"></i>
-                            <span> Roles </span>
-                        </a>
-                    </li>
-                    <li class="{{ request()->routeIs('users.index') ? 'active' : '' }}">
-                        <a href="{{ route('users.index') }}">
-                            <i data-feather="globe"></i>
-                            <span> User </span>
-                        </a>
-                    </li>
-                    <li class="{{ request()->routeIs('product.index') ? 'active' : '' }}">
-                        <a href="{{ route('product.index') }}">
-                            <i data-feather="globe"></i>
-                            <span> Product </span>
-                        </a>
-                    </li>
-                    <li>
-                        <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                            class="btn btn-danger" style="margin-left:15px;">
-                            Logout
-                        </button>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
+                @if (Auth::user()->hasRole('admin'))
+                    @include('admin.layouts.sidebar.admin')
+                @elseif (Auth::user()->hasRole('user'))
+                    @include('admin.layouts.sidebar.user')
+                @elseif (Auth::user()->hasRole('service provider'))
+                    @include('admin.layouts.sidebar.service_provider')
+                @endif
 
             </div>
             <!-- Begin page -->

@@ -63,7 +63,7 @@
                             <div class="col-md-3 fw-bold text-secondary">Role:</div>
                             <div class="col-md-9">
                                 @if ($user->roles->count() > 0)
-                                    <span class="badge bg-primary">{{ $user->roles->first()->name }}</span>
+                                    <span class="badge bg-primary text-capitalize">{{ $user->roles->first()->name }}</span>
                                 @else
                                     <span class="text-muted">No role assigned</span>
                                 @endif

@@ -1,6 +1,5 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="content-page">
         <div class="content">
 
             <!-- Start Content-->
@@ -84,5 +83,4 @@
         </footer>
         <!-- end Footer -->
 
-    </div>
 @endsection
