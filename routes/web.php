@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\ProviderProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Product;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -46,5 +48,27 @@ Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('about-us'
 Route::get('/service', [FrontendController::class, 'Service'])->name('service');
 Route::get('/contact', [FrontendController::class, 'Contact'])->name('contact');
 Route::get('/collaboration', [FrontendController::class, 'Collaboration'])->name('collaboration');
+
+
+Route::middleware(['auth', 'role:service provider'])->group(function () {
+    // Profile routes
+    Route::get('/profile', [ProviderProfileController::class, 'index'])->name('profile.index');
+    // Personal Info routes
+    Route::get('/profile/personal-info', [ProviderProfileController::class, 'personalInfo'])->name('profile.personal-info');
+    Route::post('/profile/personal-info', [ProviderProfileController::class, 'updatePersonalInfo'])->name('profile.update-personal-info');
+
+    // Profile Picture routes
+    Route::get('/profile/profile-picture', [ProviderProfileController::class, 'profilePicture'])->name('profile.profile-picture');
+    Route::post('/profile/profile-picture', [ProviderProfileController::class, 'updateProfilePicture'])->name('profile.update-profile-picture');
+
+    // Business Info routes
+    Route::get('/profile/business-info', [ProviderProfileController::class, 'businessInfo'])->name('profile.business-info');
+    Route::post('/profile/business-info', [ProviderProfileController::class, 'updateBusinessInfo'])->name('profile.update-business-info');
+
+    // Review routes
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::get('/reviews/create/{user}', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::post('/reviews/{user}', [ReviewController::class, 'store'])->name('reviews.store');
+});
 
 require __DIR__ . '/auth.php';
