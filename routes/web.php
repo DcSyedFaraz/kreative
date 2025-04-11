@@ -3,11 +3,13 @@
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ServiceController;
 use App\Models\Product;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -69,6 +71,15 @@ Route::middleware(['auth', 'role:service provider'])->group(function () {
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::get('/reviews/create/{user}', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews/{user}', [ReviewController::class, 'store'])->name('reviews.store');
+
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::post('/services', [ServiceController::class, 'update'])->name('services.update');
+
+    // Customer reviews routes
+    Route::get('/customer-reviews', [CustomerReviewController::class, 'index'])->name('customer-reviews.index');
+    Route::get('/customer-reviews/{customer}', [CustomerReviewController::class, 'create'])->name('customer-reviews.create');
+    Route::post('/customer-reviews/{customer}', [CustomerReviewController::class, 'store'])->name('customer-reviews.store');
+    Route::get('/customer-review/received', [CustomerReviewController::class, 'show'])->name('customer-reviews.show');
 });
 
 require __DIR__ . '/auth.php';

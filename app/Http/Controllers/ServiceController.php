@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Service;
+use Auth;
+use Illuminate\Http\Request;
+
+class ServiceController extends Controller
+{
+    public function index()
+    {
+        $user = Auth::user();
+        $allServices = Service::where('is_active', true)->get();
+        $userServices = $user->services->pluck('id')->toArray();
+
+        return view('services.index', compact('user', 'allServices', 'userServices'));
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'services' => 'sometimes|array',
+            'services.*' => 'exists:services,id',
+            'display_services' => 'sometimes|array',
+            'display_services.*' => 'exists:services,id',
+        ]);
+
+        $user = Auth::user();
+
+        // First detach all existing services
+        $user->services()->detach();
+
+        // Then attach the selected ones with proper display_on_profile value
+        if ($request->has('services')) {
+            foreach ($request->services as $serviceId) {
+                $displayOnProfile = in_array($serviceId, $request->display_services ?? []);
+                $user->services()->attach($serviceId, ['display_on_profile' => $displayOnProfile]);
+            }
+        }
+
+        return redirect()->route('services.index')->with('success', 'Services updated successfully');
+    }
+}

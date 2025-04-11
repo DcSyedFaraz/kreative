@@ -12,9 +12,10 @@ class ReviewController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $reviews = $user->reviews;
+        $reviews = $user->reviews()->with('customer')->get();
         return view('reviews.index', compact('user', 'reviews'));
     }
+
 
     public function create($userId)
     {

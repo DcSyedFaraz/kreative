@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
 {
-    dd($request->all());
+    // dd($request->all());
     // Validate
     $this->validate($request, [
         'username' => ['required', 'alpha_num', 'max:255'],

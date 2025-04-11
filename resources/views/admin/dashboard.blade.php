@@ -8,7 +8,7 @@
 
                     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                         <div class="flex-grow-1">
-                            <h4 class="fs-18 fw-semibold m-0">Range Area Charts</h4>
+                            <h4 class="fs-18 fw-semibold m-0">Range Area Charts {{auth()->user()->getRoleNames()}}</h4>
                         </div>
 
                         <div class="text-end">

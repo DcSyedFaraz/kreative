@@ -62,4 +62,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class, 'customer_id');
     }
+    public function services()
+    {
+        return $this->belongsToMany(Service::class)
+            ->withPivot('display_on_profile')
+            ->withTimestamps();
+    }
+
+    public function customerReviewsGiven()
+    {
+        return $this->hasMany(CustomerReview::class, 'provider_id');
+    }
+
+    public function customerReviewsReceived()
+    {
+        return $this->hasMany(CustomerReview::class, 'customer_id');
+    }
 }

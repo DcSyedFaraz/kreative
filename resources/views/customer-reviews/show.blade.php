@@ -1,22 +1,21 @@
 @extends('admin.layouts.app')
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>Customer Reviews</span>
-                        <a href="{{ route('profile.index') }}" class="btn btn-sm btn-secondary">Back to Profile</a>
+                        <span>Reviews You've Received</span>
+                        <a href="{{ route('customer-reviews.index') }}" class="btn btn-sm btn-secondary">Back to Customers</a>
                     </div>
 
                     <div class="card-body">
-                        @if ($reviews->count() > 0)
-                            @foreach ($reviews as $review)
+                        @if ($reviewsReceived->count() > 0)
+                            @foreach ($reviewsReceived as $review)
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h5 class="card-title mb-0">{{ $review->customer->fname }}</h5>
+                                            <h5 class="card-title mb-0">From: {{ $review->provider->name }}</h5>
                                             <div class="rating">
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     @if ($i <= $review->rating)
@@ -35,7 +34,7 @@
                             @endforeach
                         @else
                             <div class="alert alert-info" role="alert">
-                                You haven't received any reviews yet.
+                                You haven't received any customer reviews yet.
                             </div>
                         @endif
                     </div>

@@ -31,6 +31,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('12345678'),
         ]);
         $admin->assignRole('admin');
+        $provider = User::factory()->create([
+            'fname' => 'Test provider',
+            'lname' => 'Test provider',
+            'username' => 'Test provider',
+            'email' => 'provider@gmail.com',
+            'password' => bcrypt('12345678'),
+        ]);
+        $provider->assignRole('service provider');
 
         $this->call([PermissionsTableSeeder::class]);
     }
