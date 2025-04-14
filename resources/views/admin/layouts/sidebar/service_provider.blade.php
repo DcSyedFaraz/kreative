@@ -30,22 +30,22 @@
         </a>
     </li>
 
-    {{-- <li class="{{ request()->routeIs('profile.business-info') ? 'menuitem-active' : '' }}">
+    <li class="{{ request()->routeIs('profile.business-info') ? 'menuitem-active' : '' }}">
         <a href="{{ route('profile.business-info') }}"
             class="{{ request()->routeIs('profile.business-info') ? 'active' : '' }}">
             <i data-feather="briefcase"></i>
             <span> Business Info </span>
         </a>
-    </li> --}}
+    </li>
 
-    {{-- <li class="{{ request()->routeIs('services.*') ? 'menuitem-active' : '' }}">
+    <li class="{{ request()->routeIs('services.*') ? 'menuitem-active' : '' }}">
         <a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}">
             <i data-feather="settings"></i>
             <span> Available Services </span>
         </a>
-    </li> --}}
+    </li>
 
-    {{-- <li class="{{ request()->routeIs('reviews.index') ? 'menuitem-active' : '' }}">
+    <li class="{{ request()->routeIs('reviews.index') ? 'menuitem-active' : '' }}">
         <a href="{{ route('reviews.index') }}" class="{{ request()->routeIs('reviews.index') ? 'active' : '' }}">
             <i data-feather="star"></i>
             <span> My Reviews </span>
@@ -58,7 +58,7 @@
             <i data-feather="message-square"></i>
             <span> Review Customers </span>
         </a>
-    </li> --}}
+    </li>
 
     <li>
         <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

@@ -41,7 +41,7 @@
                                 <p class="mb-1">Change your profile picture</p>
                             </a>
 
-                            {{-- <a href="{{ route('profile.business-info') }}" class="list-group-item list-group-item-action">
+                            <a href="{{ route('profile.business-info') }}" class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">Business Information</h5>
                                     <small><i class="fas fa-chevron-right"></i></small>
@@ -55,7 +55,7 @@
                                     <small><i class="fas fa-chevron-right"></i></small>
                                 </div>
                                 <p class="mb-1">View customer reviews for your services</p>
-                            </a> --}}
+                            </a>
                         </div>
                     </div>
                 </div>
