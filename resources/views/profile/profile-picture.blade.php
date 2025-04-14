@@ -34,7 +34,9 @@
                             <div class="mb-3">
                                 <label for="profile_picture" class="form-label">Choose new profile picture</label>
                                 <input type="file" class="form-control @error('profile_picture') is-invalid @enderror"
-                                    id="profile_picture" name="profile_picture">
+                                    id="profile_picture" name="profile_picture"
+                                    accept=".jpeg,.jpg,.png,.gif,image/jpeg,image/png,image/jpg,image/gif">
+
                                 @error('profile_picture')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

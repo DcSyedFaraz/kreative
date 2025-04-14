@@ -33,6 +33,7 @@
                                     <li><a class="list" href="{{ route('service') }}">Our Services</a></li>
                                     <li><a class="list" href="{{ route('collaboration') }}">Collaboration</a></li>
                                     <li><a class="list" href="{{ route('contact') }}">Contact Us</a></li>
+                                    <li><a class="list" href="{{ route('service-providers.search') }}">Service Provider</a></li>
                                 </ul>
                             </div>
                         </div>

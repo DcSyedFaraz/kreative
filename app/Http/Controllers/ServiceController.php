@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -41,4 +42,21 @@ class ServiceController extends Controller
 
         return redirect()->route('services.index')->with('success', 'Services updated successfully');
     }
+    public function searchProviders(Request $request)
+    {
+        // Retrieve the search term from the query string
+        $query = $request->input('query');
+
+        $providers = User::with(['profile', 'services'])
+            ->when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->whereHas('profile', function ($q) use ($query) {
+                    $q->where('display_name', 'LIKE', "%{$query}%");
+                });
+            })
+            ->has('profile')->get();
+
+        // Return the view with the list of providers (and the original query if needed)
+        return view('frontend.search-providers', compact('providers'));
+    }
+
 }

@@ -49,6 +49,8 @@ Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('about-us');
 Route::get('/service', [FrontendController::class, 'Service'])->name('service');
 Route::get('/contact', [FrontendController::class, 'Contact'])->name('contact');
+Route::get('/service-providers', [ServiceController::class, 'searchProviders'])->name('service-providers.search');
+
 Route::get('/collaboration', [FrontendController::class, 'Collaboration'])->name('collaboration');
 
 
