@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AvailableService;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServicesController;
 use App\Models\Product;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +39,7 @@ Route::get('/student/dashboard', [DashboardController::class, 'student'])->name(
 
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
+Route::resource('available-services', ServicesController::class);
 Route::get('users/search', [UserController::class, 'search'])->name('users.search');
 
 Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

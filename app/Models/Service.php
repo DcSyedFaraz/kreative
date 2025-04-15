@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
-    protected $guarded = [];
+    protected $table = 'services';
+    protected $fillable = ['name', 'description'];
     public function users()
     {
         return $this->belongsToMany(User::class)

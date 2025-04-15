@@ -1,6 +1,5 @@
 @extends('admin.layouts.app')
 @section('content')
-
         <div class="content">
 
             <!-- Start Content-->
@@ -8,13 +7,13 @@
 
                 <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                     <div class="flex-grow-1">
-                        <h4 class="fs-18 fw-semibold m-0">Product Form</h4>
+                        <h4 class="fs-18 fw-semibold m-0">Service Form</h4>
                     </div>
                 </div>
                 <!-- Button Datatable -->
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{ route('product.store') }}" method="POST">
+                        <form action="{{ route('available-services.store') }}" method="POST">
                             @csrf
                             <div class="card">
                                 <div class="card-body">
@@ -29,17 +28,16 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <h6 class="fs-15 mb-3">Detail</h6>
+                                            <h6 class="fs-15 mb-3">Description</h6>
                                             <div class="form-floating mb-3">
-                                                <input type="text" name="detail" class="form-control" id="detail"
-                                                    placeholder="Detail">
-                                                <label for="detail">Detail</label>
+                                                <textarea  class="form-control" name="description" rows="12"></textarea>
+                                                <label for="description">Description</label>
                                             </div>
                                         </div>
 
                                         <div class="form-floating mb-3">
                                             <button class="btn btn-success">Submit</button>
-                                            <a href="{{ route('product.index') }}" class="btn btn-danger">Cancel</a>
+                                            <a href="{{ route('available-services.index') }}" class="btn btn-danger">Cancel</a>
                                         </div>
                                     </div>
                                 </div>
@@ -67,5 +65,4 @@
             </div>
         </footer>
         <!-- end Footer -->
-
 @endsection

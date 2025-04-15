@@ -24,6 +24,12 @@
             <span> Edit Profile </span>
         </a>
     </li>
+    <li class="{{ request()->routeIs('available-services.*') ? 'menuitem-active' : '' }}">
+        <a href="{{ route('available-services.index') }}" class="{{ request()->routeIs('available-services.*') ? 'active' : '' }}">
+            <i data-feather="globe"></i>
+            <span> Service </span>
+        </a>
+    </li>
     {{-- <li class="{{ request()->routeIs('product.*') ? 'menuitem-active' : '' }}">
         <a href="{{ route('product.index') }}"
             class="{{ request()->routeIs('product.*') ? 'active' : '' }}">
