@@ -13,9 +13,8 @@
             <div class="container">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="user-tab" data-bs-toggle="tab"
-                            data-bs-target="#user-tab-pane" type="button" role="tab" aria-controls="user-tab-pane"
-                            aria-selected="true">User</button>
+                        <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-tab-pane"
+                            type="button" role="tab" aria-controls="user-tab-pane" aria-selected="true">User</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="vendor-tab" data-bs-toggle="tab" data-bs-target="#vendor-tab-pane"
@@ -48,7 +47,8 @@
                                     </div>
                                     <div class="regbtns">
                                         <input type="submit" class="logbtn" value="Login">
-                                        <input type="button" class="regbtn" value="Register" onclick="window.location.href='{{route('register')}}'">
+                                        <input type="button" class="regbtn" value="Register"
+                                            onclick="window.location.href='{{ route('register') }}'">
                                     </div>
                                     <div class="forgot">
                                         <a href="#" class="frgt">Forgot your password?</a>
@@ -80,11 +80,12 @@
                                     </div>
                                     <div class="regbtns">
                                         <input type="submit" class="logbtn" value="Login">
-                                        <input type="submit" class="regbtn" value="Register">
+                                        <input type="button" class="regbtn" value="Register"
+                                            onclick="window.location.href='{{ route('register') }}'">
                                     </div>
                                     <div class="forgot">
                                         <a href="#" class="frgt">Forgot your password?</a>
-                                        <a href="sign-up.html" class="signupbtn">Sign Up</a>
+                                        <a href="{{ route('register') }}" class="signupbtn">Sign Up</a>
                                     </div>
                                 </div>
                             </div>
@@ -94,4 +95,4 @@
             </div>
         </section>
     </section>
-  @endsection
+@endsection

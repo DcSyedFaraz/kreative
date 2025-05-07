@@ -64,8 +64,8 @@
                                         @enderror
                                 </div>
                                 <div class="col-md-12">
-                                    <label for="u-email">E-mail Address</label>
-                                    <input type="email" class="inputfield" id="u-email" name="email" placeholder=""
+                                    <label for="email">E-mail Address</label>
+                                    <input type="email" class="inputfield" id="email" name="email" placeholder=""
                                         required>
                                         @error('email')
                                         <div class="text-danger">{{ $message }}</div>

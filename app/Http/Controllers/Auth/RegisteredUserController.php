@@ -50,10 +50,13 @@ class RegisteredUserController extends Controller
 
         // dd($user);
 
-        event(new Registered($user));
+        // event(new Registered($user));
+        // assign role to user
+        $user->assignRole('service provider');
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('registration-pending');
+        // return redirect(route('dashboard', absolute: false));
     }
 }

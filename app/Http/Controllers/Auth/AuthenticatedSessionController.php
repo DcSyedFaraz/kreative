@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Show the login form.
      */
     public function create(): View
     {
@@ -20,28 +22,58 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Process a login request.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        // Retrieve only the credentials that were validated
+        $credentials = $request->validated();
 
-        $request->session()->regenerate();
+        // Ensure the user exists and is approved
+        $user = User::where('email', $credentials['email'])->first();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if (!$user) {
+            // Let the default failed response handle "user not found"
+            throw ValidationException::withMessages([
+                'email' => [trans('auth.failed')],
+            ]);
+        }
+
+        if ($user->status !== User::STATUS_APPROVED) {
+            // Custom messages for non-approved statuses
+            $message = match ($user->status) {
+                User::STATUS_PENDING => 'Your account is pending approval.',
+                User::STATUS_REJECTED => 'Your account request was rejected.',
+                default => trans('auth.failed'),
+            };
+
+            throw ValidationException::withMessages([
+                'email' => [$message],
+            ]);
+        }
+
+        // Attempt authentication
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard'));
+        }
+
+        // If we reach here, credentials were invalid
+        throw ValidationException::withMessages([
+            'email' => [trans('auth.failed')],
+        ]);
     }
 
     /**
-     * Destroy an authenticated session.
+     * Log the user out of the application.
      */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }

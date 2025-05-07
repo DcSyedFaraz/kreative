@@ -78,6 +78,19 @@
             @yield('content')
         </div>
     </div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col fs-13 text-muted text-center">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a
+                        href="#!" class="text-reset fw-semibold">Zoyothemes</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>

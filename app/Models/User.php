@@ -26,6 +26,7 @@ class User extends Authenticatable
         'lname',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -47,6 +48,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_REJECTED = 'rejected';
 
     public function profile()
     {

@@ -4,11 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    {{-- Toastr --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+        integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/frontend/logo.webp') }}">
     <title> @yield('title')</title>
@@ -33,7 +44,8 @@
                                     <li><a class="list" href="{{ route('service') }}">Our Services</a></li>
                                     <li><a class="list" href="{{ route('collaboration') }}">Collaboration</a></li>
                                     <li><a class="list" href="{{ route('contact') }}">Contact Us</a></li>
-                                    <li><a class="list" href="{{ route('service-providers.search') }}">Service Provider</a></li>
+                                    <li><a class="list" href="{{ route('service-providers.search') }}">Service
+                                            Provider</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -104,7 +116,8 @@
                                 UT LABORE ET DOLORE MAGNA ALIQUA.
                             </p>
                             <ul class="footul">
-                                <li><i class="fa-solid fa-location-dot"></i><a href="#"> 774 NE 84th St Miami, FL
+                                <li><i class="fa-solid fa-location-dot"></i><a href="#"> 774 NE 84th St Miami,
+                                        FL
                                         12345</a></li>
                                 <li><i class="fa-solid fa-phone"></i><a href="#"> +1 (000) 4567 4561</a></li>
                                 <li><i class="fa-solid fa-envelope"></i><a href="#"> alisq26@gmail.com</a></li>
@@ -189,14 +202,30 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 <script
     src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js">
 </script>
 
+<script>
+    @if (session('success'))
+        console.log('{{ session('success') }}');
 
+        toastr.success("{{ session('success') }}");
+    @endif
+    @if (session('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+    @if (session('info'))
+        toastr.info("{{ session('info') }}");
+    @endif
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            toastr.error("{{ $error }}");
+        @endforeach
+    @endif
+</script>
 <script>
     $('.main-caro').owlCarousel({
         loop: true,

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
@@ -30,21 +31,28 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-// Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function(){
-Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
-Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
+Route::group(['middleware' => 'auth', 'role:admin'], function () {
+    Route::post('/admin/approve/{id}', [AdminController::class, 'approve'])->name('admin.approve');
+    Route::post('/admin/reject/{id}', [AdminController::class, 'reject'])->name('admin.reject');
 
-Route::resource('roles', RoleController::class);
-Route::resource('users', UserController::class);
-Route::get('users/search', [UserController::class, 'search'])->name('users.search');
+    Route::resource('product', ProductController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
+    Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
 
-Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
-Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
-Route::resource('product', ProductController::class);
-// Route::resource('profile', ProfileController::class);
-// });
+    Route::get('users/search', [UserController::class, 'search'])->name('users.search');
+
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::resource('profile', ProfileController::class);
+    Route::get('/registration-pending', [FrontendController::class, 'registration_pending'])->name('registration-pending');
+});
+
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('about-us');
 Route::get('/service', [FrontendController::class, 'Service'])->name('service');
@@ -54,7 +62,7 @@ Route::get('/service-providers', [ServiceController::class, 'searchProviders'])-
 Route::get('/collaboration', [FrontendController::class, 'Collaboration'])->name('collaboration');
 
 
-Route::middleware(['auth', 'role:service provider'])->group(function () {
+Route::middleware(['auth', 'role:service provider', 'approved'])->group(function () {
     // Profile routes
     Route::get('/profile', [ProviderProfileController::class, 'index'])->name('profile.index');
     // Personal Info routes
