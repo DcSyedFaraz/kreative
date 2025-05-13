@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServicesController;
 use App\Models\Product;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
 
+Route::resource('available-services', ServicesController::class);
     Route::get('users/search', [UserController::class, 'search'])->name('users.search');
 
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
