@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Service;
 use App\Models\User;
 use Auth;
@@ -58,5 +59,36 @@ class ServiceController extends Controller
         // Return the view with the list of providers (and the original query if needed)
         return view('frontend.search-providers', compact('providers'));
     }
+
+    public function show($id)
+    {
+        $provider = User::with(['profile', 'services'])
+            ->findOrFail($id);
+
+        $bookings = Booking::select('booking_date')->get();
+        // dd($bookings);
+
+        return view('frontend.provider-detail', compact('provider', 'bookings'));
+    }
+
+    public function store(Request $request)
+    {
+        // Validate data
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'booking_date' => 'required|date',
+        ]);
+
+        // Save booking
+        Booking::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'booking_date' => $request->booking_date,
+        ]);
+
+        return redirect()->back()->with('success', 'Booking successful!');
+    }
+
 
 }

@@ -20,6 +20,9 @@
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- calender css -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
+
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/frontend/logo.webp') }}">
     <title> @yield('title')</title>
@@ -207,6 +210,8 @@
 <script
     src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js">
 </script>
+{{-- calender js --}}
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
 
 <script>
     @if (session('success'))
@@ -288,5 +293,4 @@
         }
     });
 </script>
-
 </html>

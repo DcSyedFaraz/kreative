@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class   User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -82,4 +82,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(CustomerReview::class, 'customer_id');
     }
+
 }

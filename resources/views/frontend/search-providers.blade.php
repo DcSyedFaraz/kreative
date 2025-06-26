@@ -48,9 +48,16 @@
                                         <div>
                                             @foreach ($provider->services as $service)
                                                 @if ($service->pivot->display_on_profile)
-                                                    <span class="badge text-capitalize bg-primary">{{ $service->name }}</span>
+                                                    <span
+                                                        class="badge text-capitalize bg-primary">{{ $service->name }}</span>
                                                 @endif
                                             @endforeach
+                                        </div>
+                                        <div class="mt-3">
+                                            <!-- Detail Button -->
+                                            <a href="{{ route('provider.detail', $provider->id) }}" class="btn btn-primary">
+                                                Details
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
