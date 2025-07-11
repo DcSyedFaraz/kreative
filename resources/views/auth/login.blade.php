@@ -60,17 +60,18 @@
                     </div>
                     <div class="tab-pane fade" id="vendor-tab-pane" role="tabpanel" aria-labelledby="vendor-tab"
                         tabindex="0">
-                        <form class="vendorform">
+                        <form method="POST" action="{{ route('login') }}" class="vendorform">
+                            @csrf
                             <div class="row align-items-center">
                                 <h2 class="form-mainhead">Vendor</h2>
                                 <div class="col-md-12">
                                     <label for="vuser">Username or E-mail</label>
-                                    <input type="text" class="inputfield" id="vuser" name="fname" placeholder=""
+                                    <input type="text" class="inputfield" id="vuser" name="email" placeholder=""
                                         required>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="vpass">Password</label>
-                                    <input type="text" class="inputfield" id="vpass" name="fname" placeholder=""
+                                    <input type="text" class="inputfield" id="vpass" name="password" placeholder=""
                                         required>
                                 </div>
                                 <div class="col-md-12">

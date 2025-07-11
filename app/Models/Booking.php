@@ -8,6 +8,16 @@ class Booking extends Model
 {
     protected $table = 'Bookings';
 
-    protected $fillable = ['name', 'email', 'booking_date'];
+    protected $fillable = ['user_id', 'package_id', 'name', 'email', 'booking_date'];
+
+      public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
 
 }

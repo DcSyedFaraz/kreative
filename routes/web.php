@@ -6,12 +6,15 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerReviewController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\StripeController;
 use App\Models\Product;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +42,8 @@ Route::group(['middleware' => 'auth', 'role:admin'], function () {
     Route::resource('product', ProductController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+
+
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -53,6 +58,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Route::resource('profile', ProfileController::class);
     Route::get('/registration-pending', [FrontendController::class, 'registration_pending'])->name('registration-pending');
+
+
+    Route::resource('packages', PackageController::class);
+
+    Route::post('/booking/store', [PaymentController::class, 'datastore'])->name('booking.store');
+    Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('payment.intent');
+    Route::get('/payments/get', [PaymentController::class, 'getPayments'])->name('payments.get');
+    Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payments.show');
+
 });
 
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -61,10 +75,6 @@ Route::get('/service', [FrontendController::class, 'Service'])->name('service');
 Route::get('/contact', [FrontendController::class, 'Contact'])->name('contact');
 Route::get('/service-providers', [ServiceController::class, 'searchProviders'])->name('service-providers.search');
 Route::get('/service-providers/{id}', [ServiceController::class, 'show'])->name('provider.detail');
-Route::post('/booking/store', [ServiceController::class, 'store'])->name('booking.store');
-
-
-
 
 Route::get('/collaboration', [FrontendController::class, 'Collaboration'])->name('collaboration');
 
@@ -97,6 +107,7 @@ Route::middleware(['auth', 'role:service provider', 'approved'])->group(function
     Route::get('/customer-reviews/{customer}', [CustomerReviewController::class, 'create'])->name('customer-reviews.create');
     Route::post('/customer-reviews/{customer}', [CustomerReviewController::class, 'store'])->name('customer-reviews.store');
     Route::get('/customer-review/received', [CustomerReviewController::class, 'show'])->name('customer-reviews.show');
+
 });
 
 require __DIR__ . '/auth.php';
