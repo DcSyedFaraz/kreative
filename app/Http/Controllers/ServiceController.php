@@ -68,18 +68,15 @@ class ServiceController extends Controller
 
     public function show($id)
     {
-        $user = User::with('packages')->findOrFail($id);
 
-        $provider = User::with(['profile', 'services'])
+        $provider = User::with(['profile', 'services', 'packages'])
             ->findOrFail($id);
 
         $bookings = Booking::select('booking_date')->get();
+
         // dd($bookings);
 
-        return view('frontend.provider-detail', compact('provider', 'bookings', 'user'));
+        return view('frontend.provider-detail', compact('provider', 'bookings'));
     }
-
-
-
 
 }

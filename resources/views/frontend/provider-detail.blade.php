@@ -17,8 +17,7 @@
                         <div class="search-input-wrapper">
                             <i class="fas fa-search search-icon"></i>
                             <input type="text" name="query" class="search-input"
-                                placeholder="Enter provider name or service..."
-                                value="{{ request('query') }}">
+                                placeholder="Enter provider name or service..." value="{{ request('query') }}">
                             <button class="search-btn" type="submit">
                                 <span>Search</span>
                                 <i class="fas fa-arrow-right"></i>
@@ -86,34 +85,39 @@
                                     @endforeach
                                 </div>
 
-                                    <p class="card-text">{{ $package->description ?? 'No description' }}</p>
-                                    <ul>
-                                        @foreach ($package->items as $item)
-                                            <li>{{ $item->features }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                @auth
-                                    @if (auth()->user()->id === $package->user_id)
-                                        <div class="d-flex justify-content-center mb-4">
-                                            <button class="btn btn-success select-package" data-bs-toggle="modal"
-                                                data-bs-target="#bookingModal" data-package-id="{{ $package->id }}"
-                                                data-package-price="{{ $package->price }}"
-                                                data-package-name="{{ $package->name }}">
-                                                Select
-                                            </button>
-                                        </div>
-                                    @else
-                                        <div class="d-flex justify-content-center mb-4">
-                                            <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-                                        </div>
-                                    @endif
-                                @endauth
-                                @guest
-                                    <div class="d-flex justify-content-center mb-4">
-                                        <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-                                    </div>
-                                @endguest
+                                    @foreach ($provider->packages as $package)
+                                        <p class="card-text">{{ $package->description ?? 'No description' }}</p>
+                                        <li>
+                                            <h5>{{ $package->name }}</h5>
+                                        </li>
+                                        <ul>
+                                            @foreach ($package->items as $item)
+                                                <li>{{ $item->features }}</li>
+                                            @endforeach
+                                        </ul>
+
+                                        @auth
+                                            @if (auth()->user()->id === $package->user_id)
+                                                <div class="d-flex justify-content-center mb-4">
+                                                    <button class="btn btn-success select-package" data-bs-toggle="modal"
+                                                        data-bs-target="#bookingModal" data-package-id="{{ $package->id }}"
+                                                        data-package-price="{{ $package->price }}"
+                                                        data-package-name="{{ $package->name }}">
+                                                        Select
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <div class="d-flex justify-content-center mb-4">
+                                                    <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+                                                </div>
+                                            @endif
+                                        @endauth
+                                        @guest
+                                            <div class="d-flex justify-content-center mb-4">
+                                                <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+                                            </div>
+                                        @endguest
+                                    @endforeach
                             </div>
                         </div>
                     </div>
@@ -158,7 +162,8 @@
                                     <i class="fas fa-user"></i>
                                     Full Name
                                 </label>
-                                <input type="text" name="name" class="form-control" required placeholder="Enter your full name">
+                                <input type="text" name="name" class="form-control" required
+                                    placeholder="Enter your full name">
                             </div>
 
                             <div class="form-group">
@@ -166,7 +171,8 @@
                                     <i class="fas fa-envelope"></i>
                                     Email Address
                                 </label>
-                                <input type="email" name="email" class="form-control" required placeholder="Enter your email">
+                                <input type="email" name="email" class="form-control" required
+                                    placeholder="Enter your email">
                             </div>
 
                             <div class="form-group">
@@ -174,14 +180,9 @@
                                     <i class="fas fa-calendar-alt"></i>
                                     Preferred Date
                                 </label>
-                                <input type="date" name="booking_date" class="form-control" required id="booking_date">
+                                <input type="date" name="booking_date" class="form-control" required
+                                    id="booking_date">
                             </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Card Details:</label>
-                            <div id="card-element" class="form-control"></div>
-                            <div id="card-errors" class="text-danger mt-2" role="alert"></div>
                         </div>
 
                         <div class="mb-3">
@@ -657,7 +658,8 @@
             border: 1px solid var(--border-color);
         }
 
-        .fc-theme-standard td, .fc-theme-standard th {
+        .fc-theme-standard td,
+        .fc-theme-standard th {
             border: 1px solid var(--border-color);
         }
 
@@ -1163,7 +1165,8 @@
             border: 1px solid var(--border-color);
         }
 
-        .fc-theme-standard td, .fc-theme-standard th {
+        .fc-theme-standard td,
+        .fc-theme-standard th {
             border: 1px solid var(--border-color);
         }
 
