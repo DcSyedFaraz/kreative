@@ -60,6 +60,13 @@
         </a>
     </li>
 
+     <li class="{{ request()->routeIs('packages.*') ? 'menuitem-active' : '' }}">
+        <a href="{{ route('packages.index') }}" class="{{ request()->routeIs('available-services.*') ? 'active' : '' }}">
+            <i data-feather="globe"></i>
+            <span> package </span>
+        </a>
+    </li>
+
     <li>
         <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
             class="btn btn-danger" style="margin-left:15px;">

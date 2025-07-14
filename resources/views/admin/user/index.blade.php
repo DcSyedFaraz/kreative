@@ -75,7 +75,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         // Ensure this script is placed after the table and modal markup
         $(document).on('click', '.btn-delete', function() {
@@ -137,4 +137,4 @@
             });
         });
     </script>
-@endsection
+@endpush

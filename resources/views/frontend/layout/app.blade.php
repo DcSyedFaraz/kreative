@@ -69,7 +69,7 @@
                             tabindex="-1" aria-labelledby="offcanvasNavbarLabel">
                             <div class="offcanvas-header">
                                 <a class="navbar-brand" href="index.html"><img
-                                        src="{{ asset('') }}assets/images/frontend/phone-logo.png" alt="logo"
+                                        src="{{ asset('assets/images/frontend/phone-logo.png') }}" alt="logo"
                                         class="logo"></a>
                                 <button type="button" class="btn-close btn-close-black text-reset"
                                     data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -211,9 +211,23 @@
     src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js">
 </script>
 {{-- calender js --}}
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
 
 <script>
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+    }
+
     @if (session('success'))
         console.log('{{ session('success') }}');
 
@@ -293,4 +307,5 @@
         }
     });
 </script>
+
 </html>

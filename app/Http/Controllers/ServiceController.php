@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Package;
 use App\Models\Service;
 use App\Models\User;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
+use Stripe\Stripe;
+use App\Models\Payment;
+use Log;
+use Stripe\PaymentIntent;
 
 class ServiceController extends Controller
 {
@@ -62,33 +68,18 @@ class ServiceController extends Controller
 
     public function show($id)
     {
+        $user = User::with('packages')->findOrFail($id);
+
         $provider = User::with(['profile', 'services'])
             ->findOrFail($id);
 
         $bookings = Booking::select('booking_date')->get();
         // dd($bookings);
 
-        return view('frontend.provider-detail', compact('provider', 'bookings'));
+        return view('frontend.provider-detail', compact('provider', 'bookings', 'user'));
     }
 
-    public function store(Request $request)
-    {
-        // Validate data
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'booking_date' => 'required|date',
-        ]);
 
-        // Save booking
-        Booking::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'booking_date' => $request->booking_date,
-        ]);
-
-        return redirect()->back()->with('success', 'Booking successful!');
-    }
 
 
 }
