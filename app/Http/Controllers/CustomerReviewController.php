@@ -15,6 +15,7 @@ class CustomerReviewController extends Controller
         $customers = User::whereHas('reviews', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->get();
+        // dd($customers);
 
         return view('customer-reviews.index', compact('user', 'customers'));
     }

@@ -57,14 +57,40 @@
                                         </div>
 
                                         <div class="rating-section">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <span class="text-white">4.9 (127 reviews)</span>
+
+                                            @php
+                                                $totalReviews = $provider->customerReviewsGiven->count();
+                                                $averageRating =
+                                                    $totalReviews > 0
+                                                        ? number_format(
+                                                            $provider->customerReviewsGiven->avg('rating'),
+                                                            1,
+                                                        )
+                                                        : 0;
+                                            @endphp
+
+                                            @if ($totalReviews > 0)
+                                                <div class="rating-section mb-3">
+                                                    <div class="stars">
+                                                        @for ($i = 0; $i < floor($averageRating); $i++)
+                                                            <i class="fas fa-star text-warning"></i>
+                                                        @endfor
+
+                                                        @if ($averageRating - floor($averageRating) >= 0.5)
+                                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                                        @endif
+
+                                                        @for ($i = 0; $i < 5 - ceil($averageRating); $i++)
+                                                            <i class="far fa-star text-warning"></i>
+                                                        @endfor
+                                                    </div>
+                                                    <span class="text-white">{{ $averageRating }} ({{ $totalReviews }}
+                                                        reviews)</span>
+                                                </div>
+                                            @else
+                                                <p class="text-white">No reviews yet.</p>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -85,53 +111,55 @@
                                     @endforeach
                                 </div>
 
-                                <div class="package-section">
-                                    @foreach ($provider->packages as $package)
-                                        <p class="card-text">{{ $package->description ?? 'No description' }}</p>
-                                        <h5>{{ $package->name }}</h5>
-                                        <ul>
-                                            @foreach ($package->items as $item)
-                                                <li>{{ $item->features }}</li>
-                                            @endforeach
-                                        </ul>
 
-                                        @auth
-                                            @if (auth()->user()->id === $package->user_id)
-                                                <div class="d-flex justify-content-center mb-4">
-                                                    <button class="btn btn-success select-package" data-bs-toggle="modal"
-                                                        data-bs-target="#bookingModal" data-package-id="{{ $package->id }}"
-                                                        data-package-price="{{ $package->price }}"
-                                                        data-package-name="{{ $package->name }}">
-                                                        Select
-                                                    </button>
-                                                </div>
-                                            @else
-                                                <div class="d-flex justify-content-center mb-4">
-                                                    <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-                                                </div>
-                                            @endif
-                                        @endauth
-                                        @guest
+                                @foreach ($provider->packages as $package)
+                                    <p class="card-text">{{ $package->description ?? 'No description' }}</p>
+                                    <h5>{{ $package->name }}</h5>
+                                    <ul>
+                                        @foreach ($package->items as $item)
+                                            <li>{{ $item->features }}</li>
+                                        @endforeach
+                                    </ul>
+
+                                    @auth
+                                        @if (auth()->user()->id === $package->user_id)
+                                            <div class="d-flex justify-content-center mb-4">
+                                                <button class="btn btn-success select-package" data-bs-toggle="modal"
+                                                    data-bs-target="#bookingModal" data-package-id="{{ $package->id }}"
+                                                    data-package-price="{{ $package->price }}"
+                                                    data-package-name="{{ $package->name }}">
+                                                    Select
+                                                </button>
+                                            </div>
+                                        @else
                                             <div class="d-flex justify-content-center mb-4">
                                                 <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
                                             </div>
-                                        @endguest
-                                    @endforeach
+                                        @endif
+
+                                    @endauth
+                                @endforeach
+                                @guest
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
                                     </div>
+                                @endguest
+
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Calendar Section -->
-                <div class="calendar-section">
-                    <h4 class="section-title">Available Dates</h4>
-                    <div class="calendar-wrapper">
-                        <div id="calendar"></div>
-                    </div>
+            <!-- Calendar Section -->
+            <div class="calendar-section">
+                <h4 class="section-title">Available Dates</h4>
+                <div class="calendar-wrapper">
+                    <div id="calendar"></div>
                 </div>
+            </div>
 
-                <div id="calendar" class="mb-4"></div>
+            <div id="calendar" class="mb-4"></div>
             </div>
         </section>
     </section>
