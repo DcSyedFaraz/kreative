@@ -139,7 +139,7 @@
     <!-- Enhanced Booking Modal -->
     <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form method="POST" action="{{ route('booking.store') }}">
+            <form method="POST" action="{{ route('booking.store') }}" id="payment-form">
                 @csrf
                 <input type="hidden" name="package_id" id="selected_package_id">
 
