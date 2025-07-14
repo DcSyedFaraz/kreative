@@ -77,7 +77,6 @@ class ServiceController extends Controller
         // dd($bookings);
 
         return view('frontend.provider-detail', compact('provider', 'bookings'));
-        return view('frontend.provider-detail', compact('provider', 'bookings'));
     }
 
 }
