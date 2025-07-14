@@ -34,7 +34,7 @@
             <div class="container d-block">
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-md-2 col-6 px-3">
-                        <a href="index.html">
+                        <a href="/">
                             <img class="navlogo" src="{{ asset('assets/images/frontend/logo.webp') }}" alt="">
                         </a>
                     </div>
