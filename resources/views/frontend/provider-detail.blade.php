@@ -85,11 +85,10 @@
                                     @endforeach
                                 </div>
 
+                                <div class="package-section">
                                     @foreach ($provider->packages as $package)
                                         <p class="card-text">{{ $package->description ?? 'No description' }}</p>
-                                        <li>
-                                            <h5>{{ $package->name }}</h5>
-                                        </li>
+                                        <h5>{{ $package->name }}</h5>
                                         <ul>
                                             @foreach ($package->items as $item)
                                                 <li>{{ $item->features }}</li>
@@ -118,6 +117,7 @@
                                             </div>
                                         @endguest
                                     @endforeach
+                                    </div>
                             </div>
                         </div>
                     </div>
