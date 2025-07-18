@@ -1,21 +1,21 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerReviewController;
+use App\Http\Controllers\CustomPackageController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceProviderConditionController;
 use App\Http\Controllers\ServicesController;
-use App\Http\Controllers\StripeController;
-use App\Models\Product;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +34,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-
 Route::group(['middleware' => 'auth', 'role:admin'], function () {
     Route::post('/admin/approve/{id}', [AdminController::class, 'approve'])->name('admin.approve');
     Route::post('/admin/reject/{id}', [AdminController::class, 'reject'])->name('admin.reject');
@@ -42,7 +41,6 @@ Route::group(['middleware' => 'auth', 'role:admin'], function () {
     Route::resource('product', ProductController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-
 
 });
 Route::group(['middleware' => 'auth'], function () {
@@ -59,13 +57,23 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::resource('profile', ProfileController::class);
     Route::get('/registration-pending', [FrontendController::class, 'registration_pending'])->name('registration-pending');
 
-
     Route::resource('packages', PackageController::class);
 
     Route::post('/booking/store', [PaymentController::class, 'datastore'])->name('booking.store');
     Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('payment.intent');
     Route::get('/payments/get', [PaymentController::class, 'getPayments'])->name('payments.get');
     Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payments.show');
+
+    Route::get('/provider/conditions', [ServiceProviderConditionController::class, 'index'])->name('provider.conditions.edit');
+    Route::post('/provider/conditions', [ServiceProviderConditionController::class, 'store'])->name('provider.conditions.update');
+
+    Route::get('/providers/{provider}/custom-packages/create', [CustomPackageController::class, 'create'])->name('custom-packages.create');
+    Route::post('/providers/{provider}/custom-packages', [CustomPackageController::class, 'store'])->name('custom-packages.store');
+    Route::get('/custom-packages', [CustomPackageController::class, 'index'])->name('custom-packages.index');
+    Route::get('/custom-packages/{customPackage}', [CustomPackageController::class, 'show'])->name('custom-packages.show');
+    Route::put('/custom-packages/{customPackage}', [CustomPackageController::class, 'update'])->name('custom-packages.update');
+    Route::delete('/custom-packages/{customPackage}', [CustomPackageController::class, 'destroy'])->name('custom-packages.destroy');
+    Route::post('/custom-packages/{customPackage}/pay', [CustomPackageController::class, 'pay'])->name('custom-packages.pay');
 
 });
 
@@ -77,7 +85,6 @@ Route::get('/service-providers', [ServiceController::class, 'searchProviders'])-
 Route::get('/service-providers/{id}', [ServiceController::class, 'show'])->name('provider.detail');
 
 Route::get('/collaboration', [FrontendController::class, 'Collaboration'])->name('collaboration');
-
 
 Route::middleware(['auth', 'role:service provider', 'approved'])->group(function () {
     // Profile routes
@@ -110,4 +117,4 @@ Route::middleware(['auth', 'role:service provider', 'approved'])->group(function
 
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
