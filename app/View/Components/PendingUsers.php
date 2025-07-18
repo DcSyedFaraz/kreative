@@ -23,7 +23,9 @@ class PendingUsers extends Component
      */
     public function __construct()
     {
-        $this->users = User::where('status', 'pending')->paginate(2);
+        $this->users = User::where('status', 'pending')
+        ->orderBy('created_at', 'desc')
+        ->paginate(2);
     }
 
     /**

@@ -7,19 +7,19 @@
             <div class="container-xxl">
                 <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                     <div class="flex-grow-1">
-                        <h4 class="fs-18 fw-semibold mb-5">Package Show</h4>
+                        <h2 class="fw-semibold mb-5">Package Show</h2>
                     </div>
                 </div>
                 <!-- Button Datatable -->
                 <div class="row">
                     <div class="col-12">
                         <div class="container">
-                            <h5>Name : {{ $package->name }}</h5>
-                            <h5>Description : {{ $package->description }}</h5> <br>
-                            <h5>Price : {{ $package->price }}</h5> <br>
-                            <p><strong>Features:</strong> <br> {{ $selectedPackage->flatten()->implode(', ') }}</p>
+                            <h4><strong>Name : </strong>{{ $package->name }}</h4>  <br>
+                            <h4><strong>Description : </strong>{{ $package->description }}</h4> <br>
+                            <h4><strong>Price : </strong>{{ $package->price }}</h4> <br>
+                            <h4><strong>Features: </strong>  {{ $selectedPackage->flatten()->implode(', ') }}</h4>
 
-                            <a href="{{ route('packages.index') }}" class="btn btn-danger">Cancel</a>
+                            <a href="{{ route('packages.index') }}" class="btn btn-danger mt-5">Cancel</a>
                         </div>
                     </div>
                 </div>

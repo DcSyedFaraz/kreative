@@ -30,8 +30,8 @@ class PackageController extends Controller
             'name' => 'required|string',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
-            'features' => 'required|array',
-            'features.*' => 'required|string',
+            'features' => 'nullable|array',
+            'features.*' => 'nullable|string',
         ]);
 
         $userId = Auth::id();
@@ -61,10 +61,37 @@ class PackageController extends Controller
 
     public function edit($id)
     {
-        $package = Package::with('items')->find($id);
-        $selectedFeatures = $package->items->pluck('features')->filter()->toArray();
-        return view('admin.packages.edit', compact('package', 'selectedFeatures'));
+        $package = Package::with('items')->findOrFail($id);
+
+        // Predefined list
+        $predefinedFeatures = [
+            'Photographic',
+            'Video Editing',
+            'Album Design',
+            'Website Design',
+            'Drone Coverage',
+            'Live Streaming',
+            'Highlight Reel',
+            'Trailer Video',
+            'Full HD Recording',
+            'Cinematic Editing',
+            'Free Pre-Wedding Shoot',
+            'Photo Album (40 Pages)',
+            'USB with Edited Video',
+            'Facebook Upload',
+            'Instagram Teaser',
+            'Delivery within 7 days',
+        ];
+
+        $allFeatures = $package->items->pluck('features')->toArray();
+
+        // Split predefined and custom
+        $selectedPredefined = array_intersect($allFeatures, $predefinedFeatures);
+        $customFeatures = array_diff($allFeatures, $predefinedFeatures);
+
+        return view('admin.packages.edit', compact('package', 'predefinedFeatures', 'selectedPredefined', 'customFeatures'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -73,8 +100,8 @@ class PackageController extends Controller
             'name' => 'required|string',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
-            'features' => 'required|array',
-            'features.*' => 'required|string',
+            'features' => 'nullable|array',
+            'features.*' => 'nullable|string',
         ]);
 
         $package = Package::findOrFail($id);
