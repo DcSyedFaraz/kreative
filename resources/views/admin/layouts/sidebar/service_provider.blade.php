@@ -60,6 +60,13 @@
         </a>
     </li>
 
+    <li class="{{ request()->routeIs('package-options.edit') || request()->routeIs('provider.conditions.edit') ? 'menuitem-active' : '' }}">
+        <a href="{{ route('package-options.edit') }}" class="{{ request()->routeIs('package-options.edit') || request()->routeIs('provider.conditions.edit') ? 'active' : '' }}">
+            <i data-feather="sliders"></i>
+            <span> Package Options </span>
+        </a>
+    </li>
+
      <li class="{{ request()->routeIs('packages.*') ? 'menuitem-active' : '' }}">
         <a href="{{ route('packages.index') }}" class="{{ request()->routeIs('available-services.*') ? 'active' : '' }}">
             <i data-feather="globe"></i>

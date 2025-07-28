@@ -184,6 +184,15 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                <div class="text-end my-3">
+                                    @auth
+                                        <a href="{{ route('custom-packages.create', $provider) }}" class="btn btn-warning">
+                                            Request Custom Package
+                                        </a>
+                                    @else
+                                        <a href="{{ route('login') }}" class="btn btn-warning">Login to Request Custom Package</a>
+                                    @endauth
+                                </div>
                             </div>
                         </div>
                     </div>
