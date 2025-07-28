@@ -66,6 +66,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/provider/conditions', [ServiceProviderConditionController::class, 'index'])->name('provider.conditions.edit');
     Route::post('/provider/conditions', [ServiceProviderConditionController::class, 'store'])->name('provider.conditions.update');
+    // Alternative routes to manage custom package options
+    Route::get('/provider/package-options', [ServiceProviderConditionController::class, 'index'])->name('package-options.edit');
+    Route::post('/provider/package-options', [ServiceProviderConditionController::class, 'store'])->name('package-options.update');
 
     Route::get('/providers/{provider}/custom-packages/create', [CustomPackageController::class, 'create'])->name('custom-packages.create');
     Route::post('/providers/{provider}/custom-packages', [CustomPackageController::class, 'store'])->name('custom-packages.store');
