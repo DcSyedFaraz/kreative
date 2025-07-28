@@ -8,6 +8,14 @@
             <li>{{ $feature }}</li>
         @endforeach
     </ul>
+    @if($customPackage->options)
+        <h6>Selected Options</h6>
+        <ul>
+            @foreach($customPackage->options as $opt)
+                <li>{{ $opt['name'] }} x {{ $opt['quantity'] }} ({{ $opt['unit_price'] }})</li>
+            @endforeach
+        </ul>
+    @endif
     <p>Price: {{ $customPackage->price }}</p>
     @if($customPackage->payment_status === 'pending')
         <form method="POST" action="{{ route('custom-packages.pay', $customPackage) }}">
