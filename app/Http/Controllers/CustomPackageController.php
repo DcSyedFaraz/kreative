@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomPackage;
 use App\Models\ServiceProviderCondition;
+use App\Models\PackageOption;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,8 +29,9 @@ class CustomPackageController extends Controller
     public function create(User $provider)
     {
         $condition = ServiceProviderCondition::where('service_provider_id', $provider->id)->first();
+        $options = PackageOption::where('service_provider_id', $provider->id)->get();
 
-        return view('custom-packages.create', compact('provider', 'condition'));
+        return view('custom-packages.create', compact('provider', 'condition', 'options'));
     }
 
     /**
@@ -41,8 +43,26 @@ class CustomPackageController extends Controller
             'name' => 'required|string',
             'description' => 'nullable|string',
             'features' => 'nullable|array',
-            'price' => 'required|numeric',
+            'options' => 'nullable|array',
         ]);
+
+        $selectedOptions = [];
+        $price = 0;
+        if ($request->options) {
+            foreach ($request->options as $optionId => $qty) {
+                $option = PackageOption::find($optionId);
+                $quantity = (int)$qty;
+                if ($option && $quantity > 0) {
+                    $selectedOptions[] = [
+                        'option_id' => $option->id,
+                        'name' => $option->name,
+                        'quantity' => $quantity,
+                        'unit_price' => $option->base_price,
+                    ];
+                    $price += $option->base_price * $quantity;
+                }
+            }
+        }
 
         $package = CustomPackage::create([
             'service_provider_id' => $provider->id,
@@ -50,7 +70,8 @@ class CustomPackageController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'features' => $request->features,
-            'price' => $request->price,
+            'options' => $selectedOptions,
+            'price' => $price,
         ]);
 
         return redirect()->route('custom-packages.show', $package);
@@ -69,7 +90,8 @@ class CustomPackageController extends Controller
      */
     public function edit(CustomPackage $customPackage)
     {
-        return view('custom-packages.edit', compact('customPackage'));
+        $options = PackageOption::where('service_provider_id', $customPackage->service_provider_id)->get();
+        return view('custom-packages.edit', compact('customPackage', 'options'));
     }
 
     /**
@@ -81,10 +103,34 @@ class CustomPackageController extends Controller
             'name' => 'required|string',
             'description' => 'nullable|string',
             'features' => 'nullable|array',
-            'price' => 'required|numeric',
+            'options' => 'nullable|array',
         ]);
 
-        $customPackage->update($request->only('name', 'description', 'features', 'price'));
+        $selectedOptions = [];
+        $price = 0;
+        if ($request->options) {
+            foreach ($request->options as $optionId => $qty) {
+                $option = PackageOption::find($optionId);
+                $quantity = (int)$qty;
+                if ($option && $quantity > 0) {
+                    $selectedOptions[] = [
+                        'option_id' => $option->id,
+                        'name' => $option->name,
+                        'quantity' => $quantity,
+                        'unit_price' => $option->base_price,
+                    ];
+                    $price += $option->base_price * $quantity;
+                }
+            }
+        }
+
+        $customPackage->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'features' => $request->features,
+            'options' => $selectedOptions,
+            'price' => $price,
+        ]);
 
         return redirect()->route('custom-packages.show', $customPackage)->with('success', 'Updated');
     }

@@ -15,6 +15,7 @@ use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceProviderConditionController;
+use App\Http\Controllers\PackageOptionController;
 use App\Http\Controllers\ServicesController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -66,9 +67,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/provider/conditions', [ServiceProviderConditionController::class, 'index'])->name('provider.conditions.edit');
     Route::post('/provider/conditions', [ServiceProviderConditionController::class, 'store'])->name('provider.conditions.update');
-    // Alternative routes to manage custom package options
-    Route::get('/provider/package-options', [ServiceProviderConditionController::class, 'index'])->name('package-options.edit');
-    Route::post('/provider/package-options', [ServiceProviderConditionController::class, 'store'])->name('package-options.update');
+    // Routes to manage custom package options
+    Route::get('/provider/package-options', [PackageOptionController::class, 'index'])->name('package-options.edit');
+    Route::post('/provider/package-options', [PackageOptionController::class, 'store'])->name('package-options.update');
 
     Route::get('/providers/{provider}/custom-packages/create', [CustomPackageController::class, 'create'])->name('custom-packages.create');
     Route::post('/providers/{provider}/custom-packages', [CustomPackageController::class, 'store'])->name('custom-packages.store');

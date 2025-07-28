@@ -12,6 +12,7 @@ class CustomPackage extends Model
         'name',
         'description',
         'features',
+        'options',
         'price',
         'stripe_payment_id',
         'payment_status',
@@ -19,6 +20,7 @@ class CustomPackage extends Model
 
     protected $casts = [
         'features' => 'array',
+        'options' => 'array',
     ];
 
     public function provider()
