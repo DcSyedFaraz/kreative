@@ -20,6 +20,7 @@
             </ul>
         @endif
 
+        <p><strong>Booking Date:</strong> {{ optional($customPackage->booking_date)->format('Y-m-d') ?? 'N/A' }}</p>
         <p><strong>Total:</strong> ${{ number_format($customPackage->price / 100, 2) }}</p>
 
         @if ($customPackage->payment_status === 'pending')
@@ -27,6 +28,15 @@
             <form id="payment-form" method="POST" action="{{ route('custom-packages.pay', $customPackage) }}">
                 @csrf
                 <input type="hidden" name="package_id" id="selected_package_id" value="{{ $customPackage->id }}">
+
+                <div class="mb-3">
+                    <label for="booking_date">Booking Date</label>
+                    <input id="booking_date" name="booking_date" type="date" class="form-control"
+                        value="{{ old('booking_date', optional($customPackage->booking_date)->format('Y-m-d')) }}">
+                    @if (!$isDateAvailable)
+                        <small class="text-danger">Selected date is no longer available, please choose another.</small>
+                    @endif
+                </div>
 
                 <div class="mb-3">
                     <label for="name">Name</label>

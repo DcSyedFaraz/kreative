@@ -68,6 +68,56 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            @if(isset($customPackages) && $customPackages->count())
+                                <h4 class="mt-5">Custom Packages</h4>
+                                <table class="table table-striped table-bordered dt-responsive nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>User</th>
+                                            <th>Price</th>
+                                            <th>Booking Date</th>
+                                            <th>Features</th>
+                                            <th>Options</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $cid = 1; @endphp
+                                        @foreach ($customPackages as $package)
+                                            <tr>
+                                                <td>{{ $cid++ }}</td>
+                                                <td>{{ $package->name }}</td>
+                                                <td>{{ optional($package->user)->fname }}</td>
+                                                <td>{{ number_format($package->price, 2) }}</td>
+                                                <td>{{ optional($package->booking_date)->format('Y-m-d') }}</td>
+                                                <td>
+                                                    <ul class="mb-0">
+                                                        @foreach ($package->features ?? [] as $feat)
+                                                            <li>{{ $feat }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    @if ($package->options)
+                                                        <ul class="mb-0">
+                                                            @foreach ($package->options as $opt)
+                                                                <li>{{ $opt['name'] }} x {{ $opt['quantity'] }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $package->payment_status }}</td>
+                                                <td>
+                                                    <a href="{{ route('custom-packages.show', $package) }}" class="btn btn-info">Show</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
                         </div>
                     </div>
                 </div>

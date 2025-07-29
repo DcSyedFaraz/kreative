@@ -13,6 +13,10 @@
             <textarea name="description" class="form-control" rows="3"></textarea>
         </div>
         <div class="mb-3">
+            <label class="form-label">Preferred Booking Date</label>
+            <input type="date" name="booking_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Features (comma separated)</label>
             <input type="text" name="features[]" class="form-control">
         </div>
