@@ -22,16 +22,16 @@ class CustomPackage extends Model
     protected $casts = [
         'features' => 'array',
         'options' => 'array',
-        'booking_date' => 'date',
+        // 'booking_date' => 'date',
     ];
 
     public function provider()
     {
-        return $this->belongsTo(User::class, 'service_provider_id');
+        return $this->belongsTo(User::class, 'service_provider_id', 'id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

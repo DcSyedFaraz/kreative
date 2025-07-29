@@ -21,7 +21,7 @@
         @endif
 
         <p><strong>Booking Date:</strong> {{ optional($customPackage->booking_date)->format('Y-m-d') ?? 'N/A' }}</p>
-        <p><strong>Total:</strong> ${{ number_format($customPackage->price / 100, 2) }}</p>
+        <p><strong>Total:</strong> ${{ number_format($customPackage->price, 2) }}</p>
 
         @if ($customPackage->payment_status === 'pending')
             <!-- STEP 1: your Stripe Elements form -->
@@ -55,7 +55,7 @@
                 </div>
 
                 <button id="submit-button" class="btn btn-success">
-                    Pay ${{ number_format($customPackage->price / 100, 2) }}
+                    Pay ${{ number_format($customPackage->price, 2) }}
                 </button>
             </form>
         @else

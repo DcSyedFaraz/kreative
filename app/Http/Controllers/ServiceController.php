@@ -82,6 +82,7 @@ class ServiceController extends Controller
 
         $bookings = collect(array_merge($bookingDates, $customDates))
             ->map(fn($d) => (object) ['booking_date' => $d]);
+            // dd($bookings,$bookingDates,$customDates);
 
         return view('frontend.provider-detail', compact('provider', 'bookings'));
     }

@@ -1,6 +1,5 @@
 @extends('admin.layouts.app')
 @section('content')
-    
     @if (auth()->user()->hasRole('admin'))
         <x-pending-users />
     @endif
@@ -27,7 +26,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{{ route('payments.get') }}',
+                url: '{{ route('dashboard') }}',
                 data: {
                     type: 'payment'
                 }
@@ -70,7 +69,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{{ route('payments.get') }}',
+                url: '{{ route('dashboard') }}',
                 data: {
                     type: 'booking'
                 }
@@ -100,6 +99,47 @@
                 {
                     data: 'booking_date',
                     name: 'booking_date'
+                },
+            ]
+        });
+        $('#custom-packages-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('dashboard') }}',
+                data: {
+                    type: 'custom-package'
+                }
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'service_provider',
+                    name: 'service_provider'
+                },
+                {
+                    data: 'user',
+                    name: 'user'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'price',
+                    name: 'price'
+                },
+                {
+                    data: 'payment_status',
+                    name: 'payment_status'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
                 },
             ]
         });

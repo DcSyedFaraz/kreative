@@ -16,64 +16,64 @@ use Yajra\DataTables\DataTables;
 class PaymentController extends Controller
 {
     // get data in datatable
-    public function getPayments(Request $request)
-    {
-        try {
-            if ($request->ajax() && $request->type == 'payment') {
-                $query = Payment::with(['package', 'user']);
+    // public function getPayments(Request $request)
+    // {
+    //     try {
+    //         if ($request->ajax() && $request->type == 'payment') {
+    //             $query = Payment::with(['package', 'user']);
 
-                if (!auth()->user()->hasRole('admin')) {
-                    $query->where('user_id', auth()->id())->latest()->get();
-                }
+    //             if (!auth()->user()->hasRole('admin')) {
+    //                 $query->where('user_id', auth()->id())->latest()->get();
+    //             }
 
-                return DataTables::of($query)
-                    ->addIndexColumn()
-                    ->addColumn('user_id', fn($row) => optional($row->user)->id ?? 'N/A')
-                    ->addColumn('booking_id', fn($row) => $row->booking_id ?? 'N/A')
-                    ->addColumn('package_id', fn($row) => optional($row->package)->id ?? 'N/A')
-                    ->addColumn('amount', fn($row) => $row->amount ?? 'N/A')
+    //             return DataTables::of($query)
+    //                 ->addIndexColumn()
+    //                 ->addColumn('user_id', fn($row) => optional($row->user)->id ?? 'N/A')
+    //                 ->addColumn('booking_id', fn($row) => $row->booking_id ?? 'N/A')
+    //                 ->addColumn('package_id', fn($row) => optional($row->package)->id ?? 'N/A')
+    //                 ->addColumn('amount', fn($row) => $row->amount ?? 'N/A')
 
-                    ->addColumn('payment_status', function ($row) {
-                        return $row->payment_status == 'success'
-                            ? '<span class="badge bg-success">success</span>'
-                            : '<span class="badge bg-info">pending</span>';
-                    })
-                    ->addColumn(
-                        'action',
-                        fn($row) =>
-                        '<a href="' . route('payments.show', $row->id) . '" class="btn btn-sm btn-primary">Show</a>'
-                    )
+    //                 ->addColumn('payment_status', function ($row) {
+    //                     return $row->payment_status == 'success'
+    //                         ? '<span class="badge bg-success">success</span>'
+    //                         : '<span class="badge bg-info">pending</span>';
+    //                 })
+    //                 ->addColumn(
+    //                     'action',
+    //                     fn($row) =>
+    //                     '<a href="' . route('payments.show', $row->id) . '" class="btn btn-sm btn-primary">Show</a>'
+    //                 )
 
-                    ->rawColumns(['payment_status', 'action'])
-                    ->make(true);
-            }
+    //                 ->rawColumns(['payment_status', 'action'])
+    //                 ->make(true);
+    //         }
 
-            if ($request->ajax() && $request->type == 'booking') {
-                $query = Booking::with(['package', 'user']);
+    //         if ($request->ajax() && $request->type == 'booking') {
+    //             $query = Booking::with(['package', 'user']);
 
-                if (!auth()->user()->hasRole('admin')) {
-                    $query->where('user_id', auth()->id())->latest()->get();
-                }
+    //             if (!auth()->user()->hasRole('admin')) {
+    //                 $query->where('user_id', auth()->id())->latest()->get();
+    //             }
 
-                return DataTables::of($query)
-                    ->addIndexColumn()
-                    ->addColumn('user_name', function ($row) {
-                        return $row->user ? $row->user->username : 'N/A';
-                    })
-                    ->addColumn('package_id', fn($row) => optional($row->package)->id ?? 'N/A')
-                    ->addColumn('name', fn($row) => $row->name ?? 'N/A')
-                    ->addColumn('email', fn($row) => $row->email ?? 'N/A')
-                    ->addColumn('booking_date', fn($row) => $row->booking_date ?? 'N/A')
-                    ->rawColumns(['package_id', 'user_id'])
-                    ->make(true);
-            }
+    //             return DataTables::of($query)
+    //                 ->addIndexColumn()
+    //                 ->addColumn('user_name', function ($row) {
+    //                     return $row->user ? $row->user->username : 'N/A';
+    //                 })
+    //                 ->addColumn('package_id', fn($row) => optional($row->package)->id ?? 'N/A')
+    //                 ->addColumn('name', fn($row) => $row->name ?? 'N/A')
+    //                 ->addColumn('email', fn($row) => $row->email ?? 'N/A')
+    //                 ->addColumn('booking_date', fn($row) => $row->booking_date ?? 'N/A')
+    //                 ->rawColumns(['package_id', 'user_id'])
+    //                 ->make(true);
+    //         }
 
-            return abort(403);
-        } catch (\Exception $e) {
-            logger('Error in payment datatable: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
+    //         return abort(403);
+    //     } catch (\Exception $e) {
+    //         logger('Error in payment datatable: ' . $e->getMessage());
+    //         return response()->json(['error' => $e->getMessage()], 500);
+    //     }
+    // }
 
 
     // use for show detail
