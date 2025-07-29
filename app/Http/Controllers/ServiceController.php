@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Package;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\CustomPackage;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -72,9 +73,15 @@ class ServiceController extends Controller
         $provider = User::with(['profile', 'services', 'packages'])
             ->findOrFail($id);
 
-        $bookings = Booking::select('booking_date')->get();
+        $bookingDates = Booking::pluck('booking_date')->toArray();
 
-        // dd($bookings);
+        $customDates = CustomPackage::where('service_provider_id', $provider->id)
+            ->where('payment_status', 'completed')
+            ->pluck('booking_date')
+            ->toArray();
+
+        $bookings = collect(array_merge($bookingDates, $customDates))
+            ->map(fn($d) => (object) ['booking_date' => $d]);
 
         return view('frontend.provider-detail', compact('provider', 'bookings'));
     }

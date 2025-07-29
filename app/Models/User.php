@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\CustomPackage;
 
 class User extends Authenticatable
 {
@@ -91,6 +92,16 @@ class User extends Authenticatable
     public function packages()
     {
         return $this->hasMany(Package::class);
+    }
+
+    public function customPackagesCreated()
+    {
+        return $this->hasMany(CustomPackage::class, 'service_provider_id');
+    }
+
+    public function customPackagesOrdered()
+    {
+        return $this->hasMany(CustomPackage::class, 'user_id');
     }
 
 

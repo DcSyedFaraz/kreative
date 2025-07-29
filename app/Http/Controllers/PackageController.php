@@ -6,17 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\PackageItem;
+use App\Models\CustomPackage;
 use Illuminate\Support\Facades\Auth;
 
 class PackageController extends Controller
 {
     public function index()
     {
-        $packages = Package::with('items')->whereHas('items', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->get();
+        $packages = Package::with('items')
+            ->where('user_id', Auth::id())
+            ->get();
 
-        return view('admin.packages.index', compact('packages'));
+        $customPackages = CustomPackage::where('service_provider_id', Auth::id())
+            ->with('user')
+            ->get();
+
+        return view('admin.packages.index', compact('packages', 'customPackages'));
     }
 
     public function create()

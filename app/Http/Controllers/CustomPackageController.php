@@ -6,6 +6,7 @@ use App\Models\CustomPackage;
 use App\Models\ServiceProviderCondition;
 use App\Models\PackageOption;
 use App\Models\User;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stripe\PaymentIntent;
@@ -43,6 +44,7 @@ class CustomPackageController extends Controller
             'description' => 'nullable|string',
             'features' => 'nullable|array',
             'options' => 'nullable|array',
+            'booking_date' => 'required|date',
         ]);
 
         $selectedOptions = [];
@@ -70,6 +72,7 @@ class CustomPackageController extends Controller
             'description' => $request->description,
             'features' => $request->features,
             'options' => $selectedOptions,
+            'booking_date' => $request->booking_date,
             'price' => $price,
         ]);
 
@@ -81,7 +84,16 @@ class CustomPackageController extends Controller
      */
     public function show(CustomPackage $customPackage)
     {
-        return view('custom-packages.show', compact('customPackage'));
+        $available = $this->isDateAvailable(
+            $customPackage->service_provider_id,
+            $customPackage->booking_date,
+            $customPackage->id
+        );
+
+        return view('custom-packages.show', [
+            'customPackage' => $customPackage,
+            'isDateAvailable' => $available,
+        ]);
     }
 
     /**
@@ -150,18 +162,43 @@ class CustomPackageController extends Controller
             'payment_intent_id' => 'required|string',
             'name' => 'required|string|max:255',
             'email' => 'required|email',
+            'booking_date' => 'date',
         ]);
 
-        // You might also re-retrieve the PaymentIntent server‑side
-        // to verify status == 'succeeded', if you like.
+        $date = $request->booking_date ?? $customPackage->booking_date;
 
-        $customPackage->update([
-            'payment_status' => 'completed',
-            'stripe_payment_id' => $request->payment_intent_id,
-        ]);
+        if (!$this->isDateAvailable($customPackage->service_provider_id, $date, $customPackage->id)) {
+            return redirect()
+                ->back()
+                ->withErrors(['booking_date' => 'Selected date is no longer available. Please choose another date.'])
+                ->withInput();
+        }
+
+        $customPackage->booking_date = $date;
+        $customPackage->payment_status = 'completed';
+        $customPackage->stripe_payment_id = $request->payment_intent_id;
+        $customPackage->save();
 
         return redirect()
             ->route('custom-packages.show', $customPackage)
             ->with('success', 'Payment completed successfully');
+    }
+
+    private function isDateAvailable(int $providerId, $date, $excludeId = null): bool
+    {
+        if (!$date) {
+            return true;
+        }
+
+        $bookingExists = Booking::whereDate('booking_date', $date)
+            ->exists();
+
+        $customExists = CustomPackage::where('service_provider_id', $providerId)
+            ->whereDate('booking_date', $date)
+            ->where('payment_status', 'completed')
+            ->when($excludeId, fn($q) => $q->where('id', '!=', $excludeId))
+            ->exists();
+
+        return !($bookingExists || $customExists);
     }
 }
