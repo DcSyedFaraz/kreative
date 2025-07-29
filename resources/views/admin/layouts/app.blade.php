@@ -87,12 +87,12 @@
                     <script>
                         document.write(new Date().getFullYear())
                     </script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a
-                        href="#!" class="text-reset fw-semibold">Zoyothemes</a>
+                        href="#!" class="text-reset fw-semibold">Zoyothemes </a>
                 </div>
             </div>
         </div>
     </footer>
-
+    {{-- @dd(auth()->user()->roles()) --}}
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>

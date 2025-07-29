@@ -13,6 +13,12 @@
             <span> Edit Profile </span>
         </a>
     </li>
+    <li class="{{ request()->routeIs('custom-packages.*') ? 'menuitem-active' : '' }}">
+        <a href="{{ route('custom-packages.index') }}" class="{{ request()->routeIs('custom-packages.*') ? 'active' : '' }}">
+            <i data-feather="globe"></i>
+            <span> custom-packages </span>
+        </a>
+    </li>
 
     <li>
         <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

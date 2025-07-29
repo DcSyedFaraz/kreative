@@ -15,7 +15,7 @@
             @foreach($packages as $package)
                 <tr>
                     <td><a href="{{ route('custom-packages.show', $package) }}">{{ $package->name }}</a></td>
-                    <td>{{ $package->provider->name }}</td>
+                    <td>{{ $package->provider->fname }}</td>
                     <td>{{ $package->price }}</td>
                     <td>{{ $package->payment_status }}</td>
                 </tr>

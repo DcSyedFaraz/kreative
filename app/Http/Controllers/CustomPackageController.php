@@ -18,8 +18,7 @@ class CustomPackageController extends Controller
      */
     public function index()
     {
-        $packages = CustomPackage::where('user_id', Auth::id())->get();
-
+        $packages = CustomPackage::where('user_id', Auth::id())->with('provider')->get();
         return view('custom-packages.index', compact('packages'));
     }
 
@@ -51,7 +50,7 @@ class CustomPackageController extends Controller
         if ($request->options) {
             foreach ($request->options as $optionId => $qty) {
                 $option = PackageOption::find($optionId);
-                $quantity = (int)$qty;
+                $quantity = (int) $qty;
                 if ($option && $quantity > 0) {
                     $selectedOptions[] = [
                         'option_id' => $option->id,
@@ -111,7 +110,7 @@ class CustomPackageController extends Controller
         if ($request->options) {
             foreach ($request->options as $optionId => $qty) {
                 $option = PackageOption::find($optionId);
-                $quantity = (int)$qty;
+                $quantity = (int) $qty;
                 if ($option && $quantity > 0) {
                     $selectedOptions[] = [
                         'option_id' => $option->id,
@@ -145,16 +144,24 @@ class CustomPackageController extends Controller
         return redirect()->route('custom-packages.index')->with('success', 'Deleted');
     }
 
-    public function pay(CustomPackage $customPackage)
+    public function pay(Request $request, CustomPackage $customPackage)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-        $paymentIntent = PaymentIntent::create([
-            'amount' => $customPackage->price * 100,
-            'currency' => 'usd',
+        $request->validate([
+            'payment_intent_id' => 'required|string',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
         ]);
 
-        $customPackage->update(['stripe_payment_id' => $paymentIntent->id]);
+        // You might also re-retrieve the PaymentIntent server‑side
+        // to verify status == 'succeeded', if you like.
 
-        return response()->json(['clientSecret' => $paymentIntent->client_secret]);
+        $customPackage->update([
+            'payment_status' => 'completed',
+            'stripe_payment_id' => $request->payment_intent_id,
+        ]);
+
+        return redirect()
+            ->route('custom-packages.show', $customPackage)
+            ->with('success', 'Payment completed successfully');
     }
 }

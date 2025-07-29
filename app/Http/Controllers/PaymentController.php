@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\CustomPackage;
 use App\Models\Package;
 use App\Models\Payment;
 use DB;
@@ -107,6 +108,34 @@ class PaymentController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+    }
+    public function createCustomPaymentIntent(Request $request)
+    {
+        $request->validate([
+            'package_id' => 'required|exists:custom_packages,id',
+        ]);
+
+        $package = CustomPackage::findOrFail($request->package_id);
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        // Convert to integer cents:
+        // If $package->price is stored as e.g. 1105.00 dollars, multiply by 100 and round.
+        $amountInCents = (int) round($package->price * 100);
+
+        $intent = PaymentIntent::create([
+            'amount' => $amountInCents,
+            'currency' => 'usd',
+            'metadata' => [
+                'custom_package_id' => $package->id,
+                'user_id' => auth()->id(),
+            ],
+        ]);
+
+        return response()->json([
+            'clientSecret' => $intent->client_secret,
+            'paymentIntentId' => $intent->id,
+        ]);
     }
 
     public function datastore(Request $request)

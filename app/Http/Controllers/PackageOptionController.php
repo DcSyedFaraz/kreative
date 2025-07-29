@@ -16,6 +16,7 @@ class PackageOptionController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'options' => 'required|array',
             'options.*.name' => 'required|string',

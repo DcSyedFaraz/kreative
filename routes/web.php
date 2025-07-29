@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/booking/store', [PaymentController::class, 'datastore'])->name('booking.store');
     Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('payment.intent');
+    Route::any('/create-custom-payment-intent', [PaymentController::class, 'createCustomPaymentIntent'])->name('payment.custom.intent');
     Route::get('/payments/get', [PaymentController::class, 'getPayments'])->name('payments.get');
     Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payments.show');
 
