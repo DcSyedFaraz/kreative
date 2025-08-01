@@ -92,7 +92,7 @@ class PaymentController extends Controller
         try {
             $package = Package::findOrFail($request->package_id);
 
-            Stripe::setApiKey(env('STRIPE_SECRET'));
+            Stripe::setApiKey(config('services.stripe.secret'));
 
             $paymentIntent = PaymentIntent::create([
                 'amount' => $package->price * 100,
