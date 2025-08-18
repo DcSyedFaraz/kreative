@@ -74,6 +74,13 @@
         </a>
     </li>
 
+    <li class="{{ request()->routeIs('chat.*') ? 'menuitem-active' : '' }}">
+        <a href="{{ route('chat.index') }}" class="{{ request()->routeIs('chat.*') ? 'active' : '' }}">
+            <i data-feather="message-circle"></i>
+            <span> Chat Rooms </span>
+        </a>
+    </li>
+
     <li>
         <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
             class="btn btn-danger" style="margin-left:15px;">

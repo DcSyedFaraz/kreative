@@ -16,6 +16,8 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceProviderConditionController;
 use App\Http\Controllers\PackageOptionController;
+use App\Http\Controllers\ChatRoomController;
+use App\Http\Controllers\ChatMessageController;
 use App\Http\Controllers\ServicesController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +81,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/custom-packages/{customPackage}', [CustomPackageController::class, 'update'])->name('custom-packages.update');
     Route::delete('/custom-packages/{customPackage}', [CustomPackageController::class, 'destroy'])->name('custom-packages.destroy');
     Route::post('/custom-packages/{customPackage}/pay', [CustomPackageController::class, 'pay'])->name('custom-packages.pay');
+
+    Route::get('/chat', [ChatRoomController::class, 'index'])->name('chat.index');
+    Route::get('/chat/{user}', [ChatRoomController::class, 'show'])->name('chat.show');
+    Route::post('/chat/messages', [ChatMessageController::class, 'store'])->name('chat.messages.store');
 
 });
 
