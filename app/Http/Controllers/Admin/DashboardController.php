@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\CustomPackage;
 use App\Models\Payment;
+use App\Models\ChatRoom;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -94,7 +95,25 @@ class DashboardController extends Controller
                 }
             }
 
-            return view('admin.dashboard');
+            // Get unread message count for sidebar notification
+            $user = auth()->user();
+            $unreadCount = 0;
+
+            if ($user) {
+                $unreadCount = ChatRoom::where(function ($query) use ($user) {
+                    $query->where('client_id', $user->id)
+                          ->orWhere('service_provider_id', $user->id);
+                })
+                ->whereColumn('client_id', '!=', 'service_provider_id')
+                ->withCount(['messages' => function($query) use ($user) {
+                    $query->where('user_id', '!=', $user->id)
+                          ->where('created_at', '>', now()->subDays(7));
+                }])
+                ->get()
+                ->sum('messages_count');
+            }
+
+            return view('admin.dashboard', compact('unreadCount'));
         } catch (\Exception $e) {
             logger('Error in payment datatable: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);

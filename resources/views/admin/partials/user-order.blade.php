@@ -1,4 +1,55 @@
  <div class="container py-4">
+     <!-- Quick Access Cards -->
+     <div class="row mb-4">
+         <div class="col-md-4">
+             <div class="card shadow-sm border-0 h-100">
+                 <div class="card-body text-center">
+                     <div class="mb-3">
+                         <i class="fas fa-comments fa-3x text-primary"></i>
+                     </div>
+                     <h5 class="card-title">
+                         Chat Messages
+                         @if(isset($unreadCount) && $unreadCount > 0)
+                             <span class="badge bg-danger ms-2">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
+                         @endif
+                     </h5>
+                     <p class="card-text text-muted">Connect with your clients and service providers</p>
+                     <a href="{{ route('chat.index') }}" class="btn btn-primary">
+                         <i class="fas fa-arrow-right me-2"></i>Go to Chats
+                     </a>
+                 </div>
+             </div>
+         </div>
+         <div class="col-md-4">
+             <div class="card shadow-sm border-0 h-100">
+                 <div class="card-body text-center">
+                     <div class="mb-3">
+                         <i class="fas fa-user-edit fa-3x text-success"></i>
+                     </div>
+                     <h5 class="card-title">Profile</h5>
+                     <p class="card-text text-muted">Manage your profile and settings</p>
+                     <a href="{{ route('profile.edit') }}" class="btn btn-success">
+                         <i class="fas fa-arrow-right me-2"></i>Edit Profile
+                     </a>
+                 </div>
+             </div>
+         </div>
+         <div class="col-md-4">
+             <div class="card shadow-sm border-0 h-100">
+                 <div class="card-body text-center">
+                     <div class="mb-3">
+                         <i class="fas fa-box fa-3x text-info"></i>
+                     </div>
+                     <h5 class="card-title">Packages</h5>
+                     <p class="card-text text-muted">View and manage your packages</p>
+                     <a href="{{ route('packages.index') }}" class="btn btn-info">
+                         <i class="fas fa-arrow-right me-2"></i>View Packages
+                     </a>
+                 </div>
+             </div>
+         </div>
+     </div>
+
      <div class="card shadow-sm">
          <div class="card-header bg-white d-flex justify-content-between align-items-center">
              <h2 class="h4 mb-0 text-primary">

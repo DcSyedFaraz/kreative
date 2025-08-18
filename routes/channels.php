@@ -20,5 +20,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 Broadcast::channel('chat.room.{roomId}', function ($user, $roomId) {
     $room = ChatRoom::find($roomId);
-    return $room && ($user->id === $room->client_id || $user->id === $room->service_provider_id);
+
+    // Prevent access to self-chats and ensure user is a participant
+    return $room
+        && ($user->id === $room->client_id || $user->id === $room->service_provider_id)
+        && $room->client_id !== $room->service_provider_id; // Exclude self-chats
 });

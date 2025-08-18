@@ -24,6 +24,9 @@
         <a href="{{ route('chat.index') }}" class="{{ request()->routeIs('chat.*') ? 'active' : '' }}">
             <i data-feather="message-circle"></i>
             <span> Chat Rooms </span>
+            @if(isset($unreadCount) && $unreadCount > 0)
+                <span class="badge bg-danger rounded-pill ms-auto">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
+            @endif
         </a>
     </li>
 

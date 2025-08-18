@@ -21,6 +21,7 @@ use App\Http\Controllers\ChatMessageController;
 use App\Http\Controllers\ServicesController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
+use Tighten\Ziggy\Ziggy;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,10 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::get('/ziggy', function () {
+    return new Ziggy();
+});
 
 Route::group(['middleware' => 'auth', 'role:admin'], function () {
     Route::post('/admin/approve/{id}', [AdminController::class, 'approve'])->name('admin.approve');
@@ -85,6 +90,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/chat', [ChatRoomController::class, 'index'])->name('chat.index');
     Route::get('/chat/{user}', [ChatRoomController::class, 'show'])->name('chat.show');
     Route::post('/chat/messages', [ChatMessageController::class, 'store'])->name('chat.messages.store');
+    Route::post('/chat/{room}/mark-read', [ChatMessageController::class, 'markAsRead'])->name('chat.messages.mark-read');
 
 });
 
@@ -128,4 +134,4 @@ Route::middleware(['auth', 'role:service provider', 'approved'])->group(function
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
