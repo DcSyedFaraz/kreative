@@ -46,17 +46,21 @@ class ChatRoomController extends Controller
         ]);
     }
 
-    public function show(User $user)
+    public function show($uuid)
     {
         $auth = request()->user();
 
-        // Prevent creating/accessing chat with oneself
-        if ($user->id === $auth->id) {
-            abort(403, 'Cannot chat with yourself');
+        // Find the chat room by UUID
+        $room = ChatRoom::findByUuid($uuid);
+
+        if (!$room) {
+            abort(404, 'Chat room not found');
         }
 
-        // Use the new method to find or create room, preventing duplicates
-        $room = ChatRoom::findOrCreateBetweenUsers($auth->id, $user->id);
+        // Check if the authenticated user is a participant in this chat room
+        if ($room->client_id !== $auth->id && $room->service_provider_id !== $auth->id) {
+            abort(403, 'You are not authorized to access this chat room');
+        }
 
         $room->load(['client.profile', 'serviceProvider.profile']);
 
@@ -92,5 +96,24 @@ class ChatRoomController extends Controller
             'rooms' => $rooms,
             'userId' => $auth->id,
         ]);
+    }
+
+    /**
+     * Create or find a chat room with a specific user
+     */
+    public function createWithUser(User $user)
+    {
+        $auth = request()->user();
+
+        // Prevent creating/accessing chat with oneself
+        if ($user->id === $auth->id) {
+            abort(403, 'Cannot chat with yourself');
+        }
+
+        // Use the new method to find or create room, preventing duplicates
+        $room = ChatRoom::findOrCreateBetweenUsers($auth->id, $user->id);
+
+        // Redirect to the chat room using UUID
+        return redirect()->route('chat.show', $room->uuid);
     }
 }

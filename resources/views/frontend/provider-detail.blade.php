@@ -109,7 +109,7 @@
                                         </div>
                                     </div>
                                     @auth
-                                        <a href="{{ route('chat.show', $provider) }}" class="btn btn-primary mt-3">Chat with Provider</a>
+                                        <a href="{{ route('chat.create', $provider) }}" class="btn btn-primary mt-3">Chat with Provider</a>
                                     @else
                                         <a href="{{ route('login') }}" class="btn btn-primary mt-3">Chat with Provider</a>
                                     @endauth

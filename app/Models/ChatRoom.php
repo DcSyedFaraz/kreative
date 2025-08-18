@@ -4,12 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ChatRoom extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id', 'service_provider_id'];
+    protected $fillable = ['client_id', 'service_provider_id', 'uuid'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = Str::uuid();
+            }
+        });
+    }
 
     public function messages()
     {
@@ -84,7 +96,16 @@ class ChatRoom extends Model
         return static::create([
             'client_id' => $clientId,
             'service_provider_id' => $serviceProviderId,
+            'uuid' => Str::uuid(),
         ]);
+    }
+
+    /**
+     * Find a chat room by UUID
+     */
+    public static function findByUuid($uuid)
+    {
+        return static::where('uuid', $uuid)->first();
     }
 
     public function getUnreadCountAttribute($userId = null)

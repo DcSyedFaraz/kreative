@@ -88,7 +88,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/custom-packages/{customPackage}/pay', [CustomPackageController::class, 'pay'])->name('custom-packages.pay');
 
     Route::get('/chat', [ChatRoomController::class, 'index'])->name('chat.index');
-    Route::get('/chat/{user}', [ChatRoomController::class, 'show'])->name('chat.show');
+    Route::get('/chat/create/{user}', [ChatRoomController::class, 'createWithUser'])->name('chat.create');
+    Route::get('/chat/{uuid}', [ChatRoomController::class, 'show'])->name('chat.show');
     Route::post('/chat/messages', [ChatMessageController::class, 'store'])->name('chat.messages.store');
     Route::post('/chat/{room}/mark-read', [ChatMessageController::class, 'markAsRead'])->name('chat.messages.mark-read');
 

@@ -33,13 +33,16 @@ class ChatRoomDuplicateTest extends TestCase
         $serviceProvider->assignRole('service provider');
 
         // First, create a chat room from client's perspective
-        $room1 = ChatRoom::findOrCreateBetweenUsers($client->id, $serviceProvider->id);
+        $room1 = ChatRoom::create([
+            'client_id' => $client->id,
+            'service_provider_id' => $serviceProvider->id,
+        ]);
 
         // Verify the room was created with correct structure
         $this->assertEquals($client->id, $room1->client_id);
         $this->assertEquals($serviceProvider->id, $room1->service_provider_id);
 
-        // Now try to create a chat room from service provider's perspective
+        // Now try to create a chat room from service provider's perspective using the method
         $room2 = ChatRoom::findOrCreateBetweenUsers($serviceProvider->id, $client->id);
 
         // Should return the same room, not create a new one

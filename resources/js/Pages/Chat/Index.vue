@@ -54,7 +54,7 @@
                 <div class="divide-y divide-gray-100/50">
                     <div v-for="r in rooms" :key="r.id"
                         class="group hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-purple-50/50 transition-all duration-300">
-                        <Link :href="`/chat/${otherUserId(r)}`"
+                        <Link :href="`/chat/${r.uuid}`"
                             class="flex items-center gap-4 px-6 py-4 hover:scale-[1.01] transition-all duration-300">
 
                         <!-- Avatar with enhanced styling -->

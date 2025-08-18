@@ -30,7 +30,7 @@
 
                     <ul class="space-y-2">
                         <li v-for="r in (rooms || [])" :key="r?.id">
-                            <Link :href="`/chat/${otherUserId(r)}`" @click="sidebarOpen = false"
+                            <Link :href="`/chat/${r.uuid}`" @click="sidebarOpen = false"
                                 class="flex items-center gap-3 rounded-2xl px-4 py-3.5 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 group border border-transparent hover:border-blue-100/50 hover:shadow-lg hover:scale-[1.02]"
                                 :class="{
                                     'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl border-blue-200/50': r?.id === room?.id
@@ -98,7 +98,7 @@
 
                 <ul class="space-y-3">
                     <li v-for="r in (rooms || [])" :key="r?.id">
-                        <Link :href="`/chat/${otherUserId(r)}`"
+                        <Link :href="`/chat/${r.uuid}`"
                             class="flex items-center gap-4 rounded-2xl px-4 py-4 transition-all duration-300 group border border-transparent hover:border-blue-100/50 hover:shadow-lg hover:scale-[1.02]"
                             :class="{
                                 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl border-blue-200/50': r?.id === room?.id
