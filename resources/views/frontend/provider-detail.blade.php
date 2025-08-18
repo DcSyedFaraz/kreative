@@ -108,6 +108,11 @@
                                             @endif
                                         </div>
                                     </div>
+                                    @auth
+                                        <a href="{{ route('chat.show', $provider) }}" class="btn btn-primary mt-3">Chat with Provider</a>
+                                    @else
+                                        <a href="{{ route('login') }}" class="btn btn-primary mt-3">Chat with Provider</a>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
