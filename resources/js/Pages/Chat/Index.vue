@@ -1,5 +1,8 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <!-- Page Title -->
+        <Head title="Chat Conversations - Kreative" />
+
         <div class="mx-auto max-w-4xl p-6">
             <!-- Header -->
             <div class="mb-8 text-center relative">
@@ -17,9 +20,9 @@
 
                 <h1
                     class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Your Conversations
+                    Chat Conversations
                 </h1>
-                <p class="text-gray-600 mt-2">Stay connected with all your important chats</p>
+                <p class="text-gray-600 mt-2">Stay connected with all your important chats and messages</p>
             </div>
 
             <!-- Chat list -->
@@ -186,7 +189,7 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     rooms: Array,
